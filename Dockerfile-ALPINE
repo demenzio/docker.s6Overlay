@@ -1,0 +1,20 @@
+FROM alpine
+
+ARG VERSION=v1.22.1.0
+ARG ARCH=amd64
+ARG DOWN_LINK=https://github.com/just-containers/s6-overlay/releases/download/${VERSION}/s6-overlay-${ARCH}.tar.gz
+ARG DOWN_SIG=https://github.com/just-containers/s6-overlay/releases/download/${VERSION}/s6-overlay-${ARCH}.tar.gz.sig
+ARG BUILD_DIR=/tmp/build
+ARG DISTRO=alpine
+
+ADD ${DOWN_LINK} ${BUILD_DIR}/
+ADD ${DOWN_SIG} ${BUILD_DIR}/
+
+RUN apk upgrade --no-cache && \
+    #apk add --no-cache --virtual .verify-pkg gnupg && \
+    tar xzf ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz -C / && \
+    #apk del .verify-pkg && \\
+    rm -rf ${BUILD_DIR}
+
+ENTRYPOINT [ "/init" ]
+#CMD [ "/bin/ash" ]

@@ -1,0 +1,18 @@
+FROM ubuntu
+
+ARG VERSION=v1.22.1.0
+ARG ARCH=amd64
+ARG DOWN_LINK=https://github.com/just-containers/s6-overlay/releases/download/${VERSION}/s6-overlay-${ARCH}.tar.gz
+ARG DOWN_SIG=https://github.com/just-containers/s6-overlay/releases/download/${VERSION}/s6-overlay-${ARCH}.tar.gz.sig
+ARG BUILD_DIR=/tmp/build
+ARG DISTRO=ubuntu
+
+ADD ${DOWN_LINK} ${BUILD_DIR}/
+ADD ${DOWN_SIG} ${BUILD_DIR}/
+
+RUN apt-get upgrade -y && \
+    tar xzf ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz -C / && \
+    rm -rf ${BUILD_DIR}
+
+ENTRYPOINT [ "/init" ]
+#CMD [ "/bin/bash" ]
