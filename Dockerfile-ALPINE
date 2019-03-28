@@ -12,7 +12,9 @@ ADD ${DOWN_SIG} ${BUILD_DIR}/
 
 RUN apk upgrade --no-cache && \
     #apk add --no-cache --virtual .verify-pkg gnupg && \
-    tar xzf ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz -C / && \
+    #/bin and /sbin are symlinks - https://github.com/just-containers/s6-overlay#bin-and-sbin-are-symlinks
+    tar xzf ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz -C / --exclude="./bin" && \
+    tar xzf ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz -C /usr ./bin && \
     #apk del .verify-pkg && \\
     rm -rf ${BUILD_DIR}
 

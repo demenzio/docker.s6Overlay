@@ -11,7 +11,8 @@ ADD ${DOWN_LINK} ${BUILD_DIR}/
 ADD ${DOWN_SIG} ${BUILD_DIR}/
 
 RUN apt-get upgrade -y && \
-    tar xzf ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz -C / && \
+    tar xzf ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz -C / --exclude="./bin" && \
+    tar xzf ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz -C /usr ./bin && \
     rm -rf ${BUILD_DIR}
 
 ENTRYPOINT [ "/init" ]
