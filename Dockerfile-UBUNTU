@@ -1,6 +1,6 @@
 FROM ubuntu
 
-ARG VERSION=v1.22.1.0
+ARG VERSION=v1.22.0.0
 ARG ARCH=amd64
 ARG DOWN_LINK=https://github.com/just-containers/s6-overlay/releases/download/${VERSION}/s6-overlay-${ARCH}.tar.gz
 ARG DOWN_SIG=https://github.com/just-containers/s6-overlay/releases/download/${VERSION}/s6-overlay-${ARCH}.tar.gz.sig
@@ -15,8 +15,9 @@ RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y ${BUILD_PACKAGES} && \ 
     curl https://keybase.io/justcontainers/key.asc | gpg --import && \
     gpg --verify ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz.sig ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz && \
-    tar xzf ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz -C / --exclude="./bin" && \
-    tar xzf ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz -C /usr ./bin && \
+    #tar xzf ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz -C / --exclude="./bin" && \
+    #tar xzf ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz -C /usr ./bin && \
+    tar xzf ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz -C / && \
     rm -rf ${BUILD_DIR} && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get remove --purge -y ${BUILD_PACKAGES} && \
