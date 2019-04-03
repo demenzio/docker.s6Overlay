@@ -1,0 +1,33 @@
+#!/usr/bin/with-contenv bash
+
+PUID=${PUID:-911}
+PGID=${PGID:-911}
+
+groupmod -o -g "$PGID" app
+usermod -o -u "$PUID" app
+
+echo '
+
+                       .__        
+    ___  _____ _____  _|__| ____  
+    \  \/  /  |  \  \/ /  |/    \ 
+     >    <|  |  /\   /|  |   |  \
+    /__/\_ \____/  \_/ |__|___|  /
+          \/             ____  \/              
+                        / ___|
+                   ___ / /___ 
+                  / __|| ___ \
+                  \__ \| \_/ |
+                  |___/\_____/          
+
+  ALPINE Base Image with S6-Overlay
+
+    ---->GID/UID
+'
+echo "
+        User UID:    $(id -u app)
+        User GID:    $(id -g app)
+
+"
+chown app:app /app
+chown app:app /config
