@@ -34,5 +34,7 @@ RUN echo "**** upgrade system ****" && \
         apt-get autoremove -y && \
         apt-get clean
 
+ADD rootfs /
+
 ENTRYPOINT [ "/init" ]
 #CMD [ "/bin/bash" ]
