@@ -1,0 +1,38 @@
+FROM alpine
+
+ARG VERSION=v1.22.1.0
+ARG ARCH=amd64
+ARG DOWN_LINK=https://github.com/just-containers/s6-overlay/releases/download/${VERSION}/s6-overlay-${ARCH}.tar.gz
+ARG DOWN_SIG=https://github.com/just-containers/s6-overlay/releases/download/${VERSION}/s6-overlay-${ARCH}.tar.gz.sig
+ARG BUILD_DIR=/tmp/build
+ARG DISTRO=alpine
+
+ADD ${DOWN_LINK} ${BUILD_DIR}/
+ADD ${DOWN_SIG} ${BUILD_DIR}/
+
+RUN echo "**** upgrade system ****" && \
+    apk upgrade --no-cache && \
+    echo "**** install build packages ****" && \
+        apk add --no-cache --virtual .build-pkg gnupg curl && \
+    echo "**** install runtime packages ****" && \
+        apk add --no-cache bash ca-certificates coreutils shadow tzdata && \
+    echo "**** verifying s6-overlay archive ****" && \
+        curl https://keybase.io/justcontainers/key.asc | gpg --import && \
+        gpg --verify ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz.sig ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz && \
+    echo "**** install s6 ****" && \
+        tar xvfz ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz -C / && \
+    echo "**** creating runtime user ****" && \
+        groupmod -g 1000 users && \
+        useradd -u 911 -U -d /config -s /bin/false app && \
+        usermod -G users app && \
+        mkdir -p \
+        /app \
+        /config && \
+    echo "**** clean up ****" && \
+        apk del .build-pkg && \
+        rm -rf ${BUILD_DIR}
+
+ADD rootfs /
+
+ENTRYPOINT [ "/init" ]
+#CMD [ "/bin/sh" ]
