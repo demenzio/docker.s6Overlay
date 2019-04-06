@@ -7,12 +7,19 @@ ARG DOWN_SIG=https://github.com/just-containers/s6-overlay/releases/download/${V
 ARG BUILD_DIR=/tmp/build
 ARG DISTRO=ubuntu
 ARG BUILD_PACKAGES='curl gnupg'
+ARG DEBIAN_FRONTEND="noninteractive"
 
 ADD ${DOWN_LINK} ${BUILD_DIR}/
 ADD ${DOWN_SIG} ${BUILD_DIR}/
 
-RUN echo "**** upgrade system ****" && \
-        apt-get update && apt-get upgrade -y && \
+RUN echo "**** update list and install apt-utils ****" && \
+        apt-get update && apt-get install -y apt-utils && \
+    echo "**** upgrade system ****" && \
+        apt-get upgrade -y && \ 
+    echo "**** install packages ****" && \
+        apt-get install -y locales tzdata && \
+    echo "**** generate locales ****" && \
+        locale-gen en_US.UTF-8 && \ 
     echo "**** install build packages ****" && \
         apt-get install -y ${BUILD_PACKAGES} && \ 
     echo "**** verifying s6-overlay archive ****" && \
@@ -33,6 +40,8 @@ RUN echo "**** upgrade system ****" && \
         apt-get remove --purge -y ${BUILD_PACKAGES} && \
         apt-get autoremove -y && \
         apt-get clean
+
+ENV LANGUAGE="en_US:en" LANG="en_US.UTF-8" LC_ALL="en_US.UTF-8" TERM="xterm"
 
 ADD rootfs /
 
