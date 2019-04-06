@@ -6,6 +6,7 @@ PGID=${PGID:-911}
 groupmod -o -g "$PGID" app
 usermod -o -u "$PUID" app
 
+echo
 echo '
 
                        .__        
@@ -22,12 +23,16 @@ echo '
 
   ALPINE Base Image with S6-Overlay
 
-    ---->GID/UID
+              GID/UID
 '
 echo "
-        User UID:    $(id -u app)
-        User GID:    $(id -g app)
-
+      ----------------------
+         User UID:    $(id -u app)  
+         User GID:    $(id -g app)  
+      ----------------------
 "
-chown app:app /app
-chown app:app /config
+echo "      Setting Directory Owner"
+chown -R app:app /app
+chown -R app:app /config
+echo "               Done."
+echo
