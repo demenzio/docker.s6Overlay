@@ -46,6 +46,8 @@ echo  Building xuvin/s6overlay:alpine-%ver%
 echo  and
 echo  Building xuvin/s6overlay:ubuntu-%ver%
 echo.
+echo  Building xuvin/s6overlay:debian-%ver%
+echo.
 set /p choice="Are you sure? [y/n]: "
 
 IF %choice%==y (
@@ -68,12 +70,17 @@ cls
 echo.
 echo  Building xuvin/s6overlay:alpine-%ver%
 echo.
-docker build -f Dockerfile.alpine --build-arg VERSION=%ver% -t xuvin/s6overlay:alpine-%ver%  .
+docker build -f Dockerfile.alpine --pull --build-arg VERSION=%ver% -t xuvin/s6overlay:alpine-%ver%  .
 cls
 echo.
 echo  Building xuvin/s6overlay:ubuntu-%ver%
 echo.
-docker build -f Dockerfile.ubuntu --build-arg VERSION=%ver% -t xuvin/s6overlay:ubuntu-%ver% .
+docker build -f Dockerfile.ubuntu --pull --build-arg VERSION=%ver% -t xuvin/s6overlay:ubuntu-%ver% .
+cls
+echo.
+echo  Building xuvin/s6overlay:debian-%ver%
+echo.
+docker build -f Dockerfile.debian --pull --build-arg VERSION=%ver% -t xuvin/s6overlay:debian-%ver% .
 cls
 echo.
 echo  DONE.
