@@ -7,24 +7,22 @@ groupmod -o -g "$PGID" app
 usermod -o -u "$PUID" app
 
 echo
-echo '
+echo "                       .__         "
+echo "    ___  _____ _____  _|__| ____   "
+echo "    \  \/  /  |  \  \/ /  |/    \  "
+echo "     >    <|  |  /\   /|  |   |  \ "
+echo "    /__/\_ \____/  \_/ |__|___|  / "
+echo "          \/             ____  \/  "            
+echo "                        / ___|     "
+echo "                   ___ / /___      "
+echo "                  / __|| ___ \     "
+echo "                  \__ \| \_/ |     "
+echo "                  |___/\_____/     "     
+echo 
+echo "   ALPINE Base Image with S6-Overlay  "
+echo
+echo "              GID/UID                "
 
-                       .__        
-    ___  _____ _____  _|__| ____  
-    \  \/  /  |  \  \/ /  |/    \ 
-     >    <|  |  /\   /|  |   |  \
-    /__/\_ \____/  \_/ |__|___|  /
-          \/             ____  \/              
-                        / ___|
-                   ___ / /___ 
-                  / __|| ___ \
-                  \__ \| \_/ |
-                  |___/\_____/          
-
-  ALPINE Base Image with S6-Overlay
-
-              GID/UID
-'
 echo "
       ----------------------
          User UID:    $(id -u app)  
