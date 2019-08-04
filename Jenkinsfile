@@ -53,10 +53,10 @@ pipeline{
             steps{
                 script{
                     distros.split(',').each {
-                        sh (label: "Starting Test Container of ${registry}:${it}-${newVersion}.0", script: "docker run -it -d --name test-build${env.BUILD_ID}-s6-${it} ${registry}:${it}-${newVersion} /bin/sh")
-                        sh (label: "Execute Test Command in ${registry}:${it}-${newVersion}.0", script: "docker exec test-build${env.BUILD_ID}-s6-${it} bash -c 'echo ContainerisRunning'")
-                        //sh (label: "Stopping Test Container of ${registry}:${it}-${newVersion}.0", script: 'docker stop $(docker ps -q -a)')
-                        sh (label: "Stopping Test Container of ${registry}:${it}-${newVersion}.0", script: "docker stop test-build${env.BUILD_ID}-s6-${it}")
+                        sh (label: "Starting Test Container of ${registry}:${it}-${newVersion}", script: "docker run -it -d --name test-build${env.BUILD_ID}-s6-${it} ${registry}:${it}-${newVersion} /bin/sh")
+                        sh (label: "Execute Test Command in ${registry}:${it}-${newVersion}", script: "docker exec test-build${env.BUILD_ID}-s6-${it} bash -c 'echo ContainerisRunning'")
+                        //sh (label: "Stopping Test Container of ${registry}:${it}-${newVersion}", script: 'docker stop $(docker ps -q -a)')
+                        sh (label: "Stopping Test Container of ${registry}:${it}-${newVersion}", script: "docker stop test-build${env.BUILD_ID}-s6-${it}")
                     }
                 }            
             }
