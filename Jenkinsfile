@@ -106,6 +106,7 @@ pipeline{
                 distros.split(',').each {
                 sh (label: "Removing Created Docker Images with Tag ${registry}:${it}-${newVersion}", script: "docker rmi -f ${registry}:${it}-${newVersion} && docker rmi -f ${registry}:${it}-latest || exit 0")
                 }
+                sh (label: "Cleaning Docker Environment", script: "yes | docker system prune")
             }
             }
             post{
@@ -130,6 +131,7 @@ pipeline{
                 sh (label: "Removing all created images of ${registry}:${it}-${newVersion}", script: "docker rmi -f ${registry}:${it}-${newVersion} && docker push docker rmi -f ${registry}:${it}-latest || exit 0")
                 }
             }
+            sh (label: "Cleaning Docker Environment", script: "yes | docker system prune")
         }
         aborted{
             sh (label: 'Sending Notification with Status 1', script: 'curl -s --form-string "token=${pushOverAPIAPPToken}" --form-string "user=${pushOverAPIUserKey}" --form-string "priority=1" --form-string "title=${registry} - Status 1" --form-string "message=Build for ${registry} - Aborted" https://api.pushover.net/1/messages.json', returnStdout: true)
@@ -139,6 +141,7 @@ pipeline{
                 sh (label: "Removing all created images of ${registry}:${it}-${newVersion}", script: "docker rmi -f ${registry}:${it}-${newVersion} && docker rmi -f ${registry}:${it}-latest || exit 0")
                 }
             }
+            sh (label: "Cleaning Docker Environment", script: "yes | docker system prune")
         }
     }
 }
