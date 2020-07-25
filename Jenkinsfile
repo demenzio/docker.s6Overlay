@@ -3,7 +3,7 @@ pipeline{
         label "docker && linux"
     }
     environment { 
-        distros = "alpine,debian,ubuntu"
+        distros = "alpine,debian"
         registry = "xuvin/s6overlay"
         registryCredential = 'docker-xuvin-cred'
         pushOverAPIUserKey = credentials('po-userkey')
