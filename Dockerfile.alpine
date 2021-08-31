@@ -17,7 +17,7 @@ RUN echo "**** upgrade system ****" && \
     echo "**** install runtime packages ****" && \
         apk add --no-cache bash ca-certificates coreutils shadow tzdata && \
     echo "**** verifying s6-overlay archive ****" && \
-        curl https://keybase.io/justcontainers/key.asc | gpg --import && \
+        gpg --keyserver pgp.surfnet.nl  --recv-keys 6101B2783B2FD161 && \
         gpg --verify ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz.sig ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz && \
     echo "**** install s6 ****" && \
         tar xvfz ${BUILD_DIR}/s6-overlay-${ARCH}.tar.gz -C / && \
